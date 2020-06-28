@@ -1,26 +1,24 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import Navbar from "./components/layout/Navbar";
+import TimelineList from "./components/TimelineList";
+import axios from "axios";
+const App = () => {
+  const [launches, setLaunches] = useState(null);
+  useEffect(() => {
+    getLaunches();
 
-function App() {
+    //eslint-disable-next-line
+  }, []);
+  const getLaunches = async () => {
+    const res = await axios.get("https://api.spacexdata.com/v3/launches");
+    setLaunches(res.data);
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='App'>
+      <Navbar />
+      <TimelineList launches={launches} />
     </div>
   );
-}
+};
 
 export default App;
